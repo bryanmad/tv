@@ -175,7 +175,7 @@
                 30 * 60 * 1000,
             );
 
-            // do some scrolling until stopped ...
+            // get body height then update when extended
             var myheight = document.body.clientHeight + 20; //450; //(about 4.5 screens)
             var cntr = 0;
 
@@ -217,6 +217,7 @@
             // do this every 2 minutes
             setInterval(function () {
                 cntr = 0;
+                myheight = document.body.clientHeight + 20;
                 scrollDown(window);
             }, 120000);
 
