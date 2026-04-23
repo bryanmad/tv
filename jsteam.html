@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>team</title>
+    <meta content="Bryan M" name="author" />
+    <meta name="theme-color" content="indigo">
+    <meta name="robots" content="noindex">
+    <link href="originalgolf.svg" rel="icon" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="originalgolf.svg" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+	<style>
+:root {
+    --team-height: 5vh;
+    --team-spacing: calc(2vh + 0.5vw);
+}
+
+    body {
+      background-color: DarkSlateBlue;
+      font-family: Helvetica, Arial, sans-serif;
+      padding: 0;
+      margin: 0;
+	  box-sizing: border-box;
+      overflow: auto;
+
+
+      height:290vh;
+
+
+      opacity: 1;
+      transition-duration: 0.7s;
+      transition-property: opacity;
+
+
+    }
+
+    body.fade {
+        opacity: 0;
+    }
+
+ /* holds menu */
+.container {
+    position: relative;
+	height: 350vh;
+	//margin-top: 10vh;
+}
+
+ #titlecontainer {
+    position: relative;
+	height: 10vh;
+	//margin-top: 10vh;
+}
+
+/* for each day */
+#menu1 {
+		//border: 2px solid white;
+		//background-repeat: no-repeat;
+		//background-size: cover;
+		//text-align: center;
+		//height: calc((87vh - 1vh) / 6);
+		//line-height: calc((87vh - 2vh) / 6);
+		color: white;
+		font-size: 8vh;
+		//text-shadow:
+        //        -2px -2px 0 gray,
+        //        2px -2px 0 gray,
+        //        -2px 2px 0 gray,
+        //        2px 2px 0 gray,
+        //        -3px 0px 0 gray,
+        //        3px 0px 0 gray,
+        //        0px -3px 0 gray,
+        //        0px 3px 0 gray;
+
+
+		display:block;
+		padding-bottom: 50vh;
+}
+
+
+
+/* for full size results per day */
+.expandmenu {
+	    height: 187vh;
+	    transition: all 1s ease;
+		opacity: 1;
+
+}
+
+/* for return to menu days */
+.contractmenu {
+        opacity: 0.6;
+	    transition: all 1s ease;
+}
+
+.team {
+    position: absolute;
+    width: 90%;
+    //height: calc(4 * var(--team-height));
+    background: rgba(105, 105, 105, 0.8);
+    box-shadow: 0 3px 5px black;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(var(--i) * 2.5 * (var(--team-height) + var(--team-spacing)) + 1vh); /* added top space of 1vh */
+    display: flex;
+    align-items: center;
+    transition-property: top;
+    transition-duration: 1500ms;
+    border-radius: 10px;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	border: 4px solid rgba(255, 255, 255, 0.3);
+	background-clip: padding-box;
+	padding-top: 1vh;
+	padding-bottom: 1vh;
+	display: none;
+
+}
+
+.name {
+    width: 60%;
+    display: inline-flex;
+    align-items: center;
+	justify-content: left;
+    font-size: 2.5vh;
+    color: white;
+    font-weight: 400;
+    text-transform: capitalize;
+
+}
+
+.score {
+    width: 20%;
+    font-size: 5vh;
+    color: white;
+    font-weight: 400;
+	display: inline-flex;
+	text-align: center;
+	justify-content: center;
+}
+
+.position {
+    width: 20%;
+    font-size: 4.5vh;
+    color: white;
+    font-weight: 400;
+    display: inline-flex;
+	text-align: center;
+	justify-content: center;
+}
+/*
+.xteam i {
+    width: 80px;
+    height: var(--team-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.8rem;
+	border-radius: 10px;
+	border: 4px solid rgba(255, 255, 255, 0.3);
+	background-clip: padding-box;
+}
+*/
+#warning {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: indigo;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999;
+      text-align: center;
+      color: white;
+      padding-top: 40vh;
+      font-size: 6vh;
+}
+
+
+/* back arrow */
+.imgbackcontainer {
+	position:fixed;
+    top:3vh;
+    right: 5vw;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+    animation: fadein 1.5s;
+  text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1), 0px 18px 23px rgba(0, 0, 0, 0.1);
+		background-color: DarkSlateBlue;
+		border-radius: 10px;
+		border: 5px solid rgba(255, 255, 255, 0.2);
+		box-shadow: 10px 10px 25px black;
+		background-clip: padding-box;
+        z-index: 9;
+        opacity: 1;
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#title {
+    position: absolute;
+    width: 90%;
+    height: 10vh;
+    background: rgba(105, 105, 105, 0.8);
+    box-shadow: 0 3px 5px black;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(
+        var(--i) * 2.1 * (var(--team-height) + var(--team-spacing))
+    );
+    border-radius: 10px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    background-clip: padding-box;
+    color: white;
+    font-size: 4vh;
+    display: block;
+}
+
+#subtitle {
+    font-size: 2.5vh;
+    font-style: italic;
+    margin-left: 2vw;
+}
+
+.tteam {
+
+	display: block;
+}
+
+#spacer4 {
+	width: 4vw;
+}
+
+.spacer2vh {
+	height: 2vh;
+}
+
+
+#bottom {
+    min-height: 10vh
+}
+
+</style>
+</head>
+<body>
+  <div id="warning">Not available in landscape orientation</div>
+  <div class="spacer2vh"></div>
+  <div id="titlecontainer">
+      <div id="title">
+          <div id="spacer4"></div>
+          &nbsp;Team scores
+          <div id="spacer4"></div>
+          <div id="subtitle">( best 2 points scores for each hole )</div>
+      </div>
+  </div>
+  </div>
+  <div class="spacer2vh"></div>
+  <div id="container" class="container">
+      <!--
+     <div id="imgbackcontainer" class="imgbackcontainer" onclick= "goBack()";">
+        <img id="imgback" style="border: 0; height: 8vh; width: 8vh;" src="arrowdarkslateblue.png" alt="x">
+     </div>
+     -->
+     <div id="menu1" onclick="activateMenu(this.id)"></div>
+  </div>
+<script>
+
+document.body.className = "fade";
+
+document.addEventListener("DOMContentLoaded", () => {
+    window.setTimeout(function () {
+        document.body.className = "";
+    }, 230);
+});
+
+
+console.log("jsteam.html")
+
+
+    //------------------------------------------------------------------------------
+    // scroll the window
+    // - scroll down as the entries are highlighted
+    // - delay to see results
+    // - scroll back up to top
+    // - delay to see results
+    // - move to next screen
+    // - continue loop ....
+
+    var myheight = 280; //(about 3.5 screens)
+    var cntr = 0;
+
+    function scrollDown(element) {
+        cntr++;
+        if (cntr < myheight) {
+            element.scrollBy({
+                top: 10,
+                left: 0,
+                behavior: "smooth",
+            });
+
+            const scrolldowndelay = setTimeout(
+                () => requestAnimationFrame(() => scrollDown(element)),
+                100,
+            );
+        }
+    }
+
+    function scrollUp(element) {
+        cntr++;
+        if (cntr < myheight) {
+            element.scrollBy({
+                top: -10,
+                left: 0,
+                behavior: "smooth",
+            });
+
+            const scrollupdelay = setTimeout(
+                () => requestAnimationFrame(() => scrollUp(element)),
+                100,
+            );
+        }
+    }
+
+    // scroll down as results highlighted
+    // scroll up after a short delay
+    setTimeout(function () {
+        scrollDown(window);
+    }, 1000);
+
+
+    // scroll up after a 1 minute delay
+    setTimeout(function () {
+      cntr = 0;
+        scrollUp(window);
+    }, 60000);
+
+    //=========================================
+    // move to next screen after ... minutes
+    // - points
+    // - gross
+    // - team
+    //
+    // try:
+    //  5 minutes for static top places
+    //  move up after 1 minute
+    //  so 7 minutes changeover
+    //
+    // 7 minutes to next screen
+    setTimeout(function () {
+        location.replace("jspoints.html");
+    }, 420000);
+
+    //------------------------------------------------------------------------------
+
+
+var data;
+var dayCount = 6;
+var url
+var makeTeam = "";
+var currentscore = 0;
+var currentpos = 0;
+//document.getElementById("menu1").innerText = "Gross score"
+document.getElementById("menu1").className = "contractmenu"
+activateMenu("menu1")
+
+function activateMenu(thisid) {
+	var thisMenuNum = parseInt(thisid.replace("menu",""))
+	var menuNum = thisid.replace("menu","") - 1
+	var thisidmod = 0;
+	if (menuNum > 0) {
+		thisidmod = menuNum;
+	}
+	var x = document.getElementsByClassName('expandmenu');
+	document.getElementById(thisid).className = "expandmenu"
+	getData(menuNum)
+}
+
+// data is available here
+/*
+individualpointscsv
+https://docs.google.com/spreadsheets/d/1IWb7VKBi-FWzzgMHEu1ZVi8tE684QZ_Wh-iGTNJ5ya0/edit?gid=1316277170#gid=1316277170
+https://docs.google.com/spreadsheets/d/e/2PACX-1vTZXo5wqMAIQ5cdGyb_ZczrereiMQd5wGFIdNbyirolhaSJ8Fex2_-q641jVzV0Srted6EvDMtdfQE3/pub?gid=1316277170&single=true&output=csv
+*/
+
+async function getData() {
+url = "https://opensheet.elk.sh/18v--oTO4IICCTf8uCQEmFgItvVFIHukQz9Q0D_Sp1FQ/teamscorecsv";
+try {
+     const dataStream = await fetch(url);
+     if (!dataStream.ok) {
+          throw new Error(`Response status: ${dataStream.status}`);
+     }
+     data = await dataStream.json();
+} catch (error) {
+     console.error(error.message);
+}
+
+// get rid of "blanks"
+console.log(data)
+data = data.filter(function(el) {return el.name != "\n\n\n";})
+
+console.log(data)
+
+
+     useData();
+}
+
+
+function useData() {
+let container = document.getElementById("menu1");
+// empty container
+container.innerHTML = "";
+data.forEach((e, i) => (e.rank = i));
+// build screen
+data.forEach((el, i) => {
+   let box = document.createElement("div");
+   box.id= "box" + i;
+   box.className = "team";
+   box.style.setProperty("--i", i);
+   let name = document.createElement("span");
+   name.id = "name" + i
+   name.className = "name";
+   let score = document.createElement("span");
+   score.id = "score" + i
+   score.className = "score";
+   let position = document.createElement("span");
+   position.id = "position" + i
+   position.className = "position";
+   position.innerHTML = el.position;
+   box.appendChild(position);
+   box.appendChild(name);
+   box.appendChild(score);
+   box.style.setProperty("--color", el.color);
+   container.appendChild(box);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+j=0
+
+data.forEach((elstartx,j) => {
+	//console.log(elstartx)
+	initialBodyUpdate(elstartx.name,j,elstartx.score);
+})
+k=0;
+// do proper display
+
+data.forEach((el) => {
+	k++
+	setTimeout(function() {
+		if (el.name !== "") {
+            //console.log("el.name = " + el.name)
+            console.log("el.score = " + el.score)
+	bodyUpdate(el.name,el.score);
+		}
+   },k*300);
+})
+
+}
+
+
+function bodyUpdate(nom,scr) {
+//console.log("scr = " + scr)
+let elName = nom;
+data.find((team) => team.name === elName);
+// now sort out positions for same scores
+var held=1;
+var heldscore = 0
+data.forEach((elem, ind) => {
+	if (elem.score == heldscore) {
+		elem.position = held
+	} else {
+		elem.position = ind + 1;
+	}
+	held = elem.position;
+	heldscore = elem.score;
+});
+let AllTeams = Array.from(document.querySelectorAll(".team"));
+var k=0
+AllTeams.forEach((elx,j) => {
+   //let elementName = element.querySelector(".name");
+   //let elementScore = element.querySelector(".score");
+//console.log("=====" + document.getElementById("name" + j).innerText)
+let elementName = document.getElementById("name" + j).innerText
+let elementScore = document.getElementById("score" + j).innerText
+
+// replace the different chars then compare
+   if (elementName == elName.replaceAll("\n","")) {
+      // appears one by one
+      elementScore = scr;
+      elx.style.display = "flex";
+   }
+})
+
+}
+
+function initialBodyUpdate(nom,pos,score) {
+	document.getElementById("name" + pos).innerText = nom;
+    if (pos == 0) {
+      currentscore = score;
+      currentpos = (pos + 1);
+    }
+
+	if (score !== currentscore) {
+       currentpos = (pos + 1)
+    } else {
+      //currentpos++;
+    }
+
+	arrpos = ["n/a","1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th"]
+	if (score == 0) {
+	   document.getElementById("position" + pos).innerText = arrpos[0];
+	   document.getElementById("position" + pos).parentNode.style.opacity = "0.5";
+	} else {
+	   document.getElementById("position" + pos).innerText = arrpos[currentpos];
+	   document.getElementById("position" + pos).parentNode.style.opacity = "1.0";
+	}
+	document.getElementById("score" + pos).innerText = score;
+	currentscore = score;
+}
+
+function goBack() {
+	console.log("go back")
+	 location.href = "jsfront.html";
+}
+
+</script>
+</body>
+
+</html>

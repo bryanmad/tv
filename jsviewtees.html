@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no"
+        />
+        <title>tees</title>
+        <meta content="Bryan M" name="author" />
+        <meta name="theme-color" content="indigo" />
+        <meta name="robots" content="noindex" />
+        <link href="originalgolf.svg" rel="icon" type="image/x-icon" />
+        <link rel="apple-touch-icon" sizes="180x180" href="originalgolf.svg" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link
+            href="https://fonts.googleapis.com/css?family=Kalam"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                font-family: arial;
+                font-size: 4vh;
+            }
+
+            body {
+                background-color: indigo;
+
+                opacity: 1;
+                transition-duration: 0.7s;
+                transition-property: opacity;
+            }
+
+            body.fade {
+                opacity: 0;
+            }
+
+            .highlightgray {
+                background: silver;
+            }
+
+            .position {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                z-index: 2;
+                display: none;
+            }
+
+            #teecontainer {
+                animation: fadein 1.5s;
+                opacity: 1;
+
+                padding-bottom: 10vh;
+            }
+
+            .teegroup {
+                background: gray;
+                width: 90%;
+                margin: 1vh;
+                padding: 1vh;
+                background: rgba(105, 105, 105, 0.8);
+                box-shadow: 0 3px 5px black;
+                color: white;
+                border-radius: 10px;
+                transition-timing-function: cubic-bezier(
+                    0.68,
+                    -0.55,
+                    0.265,
+                    1.55
+                );
+                border: 4px solid rgba(255, 255, 255, 0.3);
+                background-clip: padding-box;
+            }
+
+            .tee {
+                //padding: 1vh;
+                font-size: 3vh;
+            }
+
+            .head {
+                background: silver;
+                width: 90%;
+                margin: 1vh;
+                padding: 1vh;
+                font-size: 5vh;
+                background: rgba(105, 105, 105, 0.8);
+                box-shadow: 0 3px 5px black;
+                color: white;
+                border-radius: 10px;
+                transition-timing-function: cubic-bezier(
+                    0.68,
+                    -0.55,
+                    0.265,
+                    1.55
+                );
+                border: 4px solid rgba(255, 255, 255, 0.3);
+                background-clip: padding-box;
+            }
+
+            /* back arrow */
+            .imgbackcontainer {
+                position: fixed;
+                top: 3vh;
+                right: 5vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: fadein 1.5s;
+                text-shadow:
+                    0px 4px 3px rgba(0, 0, 0, 0.4),
+                    0px 8px 13px rgba(0, 0, 0, 0.1),
+                    0px 18px 23px rgba(0, 0, 0, 0.1);
+                background-color: indigo;
+                border-radius: 10px;
+                border: 5px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 10px 10px 25px black;
+                background-clip: padding-box;
+                z-index: 9;
+                opacity: 1;
+            }
+
+            @keyframes fadein {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            #my-form {
+                font-family: arial;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="teecontainer">
+            <!-- populated by javascript -->
+        </div>
+
+        <script type="text/javascript">
+            document.body.className = "fade";
+
+            document.addEventListener("DOMContentLoaded", () => {
+                window.setTimeout(function () {
+                    document.body.className = "";
+                }, 230);
+            });
+
+            // set up variables etc.
+
+            var selectedteeslotplayer = "";
+            var selectedteeslot = "";
+            var oldteeslotvalue = "";
+            var selectedteeslot = "a1";
+            var dropdownselectedplayer = "----------";
+            var currentteeslotid = "";
+            var currentdropdownname = "";
+
+            var arrPlayers = [];
+            var arrTeeSlots = [];
+            var arrOptions = [];
+            var runloop = true;
+            // when it reaches 5pm swap over to looped screens
+            // test every 30 minutes ...
+            testtime = setInterval(
+                function () {
+                    var ddd = new Date();
+                    if (ddd.getHours() == "15") {
+                        runloop = false;
+                        clearInterval("testtime");
+                        location.replace("jspoints.html");
+                    }
+                },
+                30 * 60 * 1000,
+            );
+
+            // do some scrolling until stopped ...
+            var myheight = 450; //(about 4.5 screens)
+            var cntr = 0;
+
+            function scrollDown(element) {
+                //console.log("running scroll down");
+                cntr++;
+                if (cntr < myheight) {
+                    element.scrollBy({
+                        top: 10,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+
+                    const scrolldowndelay = setTimeout(
+                        () => requestAnimationFrame(() => scrollDown(element)),
+                        100,
+                    );
+                }
+            }
+
+            function scrollUp(element) {
+                //console.log("running scroll up");
+                cntr++;
+                if (cntr < myheight) {
+                    element.scrollBy({
+                        top: -10,
+                        left: 0,
+                        behavior: "smooth",
+                    });
+
+                    const scrollupdelay = setTimeout(
+                        () => requestAnimationFrame(() => scrollUp(element)),
+                        100,
+                    );
+                }
+            }
+
+            // scroll down as results highlighted
+            // do this every 2 minutes
+            setInterval(function () {
+                cntr = 0;
+                scrollDown(window);
+            }, 120000);
+
+            // scroll up every 2 minutes
+            // but with a 1 minute offset
+            setTimeout(function () {
+                setInterval(function () {
+                    cntr = 0;
+                    scrollUp(window);
+                }, 120000);
+            }, 60000);
+            // end of do some scrolling
+
+            // get arrOptions from google
+            //===========================
+            // this code runs at startup
+            //===========================
+            getData();
+            // need to set up a couple of arrays from the data in google sheets
+            // https://docs.google.com/spreadsheets/d/e/2PACX-1vTZXo5wqMAIQ5cdGyb_ZczrereiMQd5wGFIdNbyirolhaSJ8Fex2_-q641jVzV0Srted6EvDMtdfQE3/pub?gid=342576676&single=true&output=csv
+
+            async function getData() {
+                // get scores tab
+                var dataStream = await fetch(
+                    "https://opensheet.elk.sh/18v--oTO4IICCTf8uCQEmFgItvVFIHukQz9Q0D_Sp1FQ/scores",
+                );
+                if (!dataStream.ok) {
+                    const message = `An error has occured: ${dataStream.status}`;
+                    //throw new Error(message);
+                    alert("error: " + message);
+                }
+                var data = await dataStream.json();
+
+                console.log(data);
+                data = data.filter(function (el) {
+                    return el.invalid != "Y";
+                });
+                console.log(data);
+
+                // split into separate arrays
+                arrPlayers = data.map((d) => d.players);
+                //arrTeeSlots = resultsarray.map(d => d.teeslots);
+                arrTeeSlots = data.map((d) => d.teeslots);
+
+                console.log(arrPlayers.length);
+                console.log(arrTeeSlots.length);
+
+                console.log(arrPlayers);
+                //console.log(arrTeeSlots)
+                console.log(arrTeeSlots);
+                start();
+            }
+
+            async function start() {
+                // build a set of 4-ball tee times
+                var t = 0;
+                var teecontainer = document.getElementById("teecontainer");
+
+                for (let j = 0; j < arrPlayers.length; j += 4) {
+                    // create a 4-ball group
+                    await wait(400);
+                    t++;
+                    let outerbox = document.createElement("div");
+                    outerbox.id = "aa" + t;
+                    outerbox.className = "teegroup";
+
+                    // create a tee time
+                    dd = new Date(2026, 5, 28, 2, 4, 0);
+                    var tt = t * 8 - 8;
+                    ddd = addMinutes(dd, tt);
+
+                    let heading = document.createElement("div");
+                    heading.id = "h" + j;
+                    heading.className = "head";
+                    heading.innerText = "tee " + t + " at " + ddd + "pm.";
+                    teecontainer.appendChild(heading);
+                    await wait(200);
+                    // then add 4 players
+                    let box1 = document.createElement("div");
+                    box1.id = "a" + j;
+                    box1.className = "tee";
+                    box1.innerText = arrPlayers[j];
+                    outerbox.appendChild(box1);
+
+                    let box2 = document.createElement("div");
+                    box2.id = "a" + (j + 1);
+                    box2.className = "tee";
+                    box2.innerText = arrPlayers[j + 1];
+                    outerbox.appendChild(box2);
+
+                    let box3 = document.createElement("div");
+                    box3.id = "a" + (j + 2);
+                    box3.className = "tee";
+                    box3.innerText = arrPlayers[j + 2];
+                    outerbox.appendChild(box3);
+
+                    let box4 = document.createElement("div");
+                    box4.id = "a" + (j + 3);
+                    box4.className = "tee";
+                    box4.innerText = arrPlayers[j + 3];
+                    outerbox.appendChild(box4);
+                    await wait(300);
+                    teecontainer.appendChild(outerbox);
+                }
+            } // end of start()
+
+            function addMinutes(date, minutes) {
+                var tt = new Date(date.getTime() + minutes * 60000);
+                // get the current hour (from 0 to 23)
+                var hour = tt.getHours();
+                // get the current minute (from 0 to 59)
+                var minute = tt.getMinutes();
+                if (minute < 10) {
+                    minute = "0" + minute;
+                }
+                // display the current time in the format "HH:MM"
+                return hour + ":" + minute;
+            }
+
+            function goBack() {
+                console.log("go back");
+                location.href = "jsfront.html";
+            }
+
+            const wait = (time) =>
+                new Promise((resolve) => {
+                    setTimeout(() => resolve(), time);
+                });
+        </script>
+    </body>
+</html>
