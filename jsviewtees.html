@@ -175,61 +175,51 @@
                 30 * 60 * 1000,
             );
 
-            // get body height then update when extended
-            var myheight = document.body.clientHeight + 20; //450; //(about 4.5 screens)
-            var cntr = 0;
+            // start the run after 30 seconds
+            setTimeout(scrollToBottom, 30000);
 
-            function scrollDown(element) {
-                //console.log("running scroll down");
-                cntr++;
-                if (cntr < myheight) {
-                    element.scrollBy({
-                        top: 10,
-                        left: 0,
-                        behavior: "smooth",
-                    });
+            function scrollToBottom(timedelay = 150) {
+                var scrollId;
+                var minScrollHeight = 5;
 
-                    const scrolldowndelay = setTimeout(
-                        () => requestAnimationFrame(() => scrollDown(element)),
-                        100,
-                    );
-                }
+                scrollId = setInterval(function () {
+                    if (
+                        window.innerHeight + window.scrollY >=
+                        document.body.offsetHeight
+                    ) {
+                        clearInterval(scrollId);
+                        // now run the upwards scroll
+                        scrollToTop();
+                    } else {
+                        window.scrollBy({
+                            top: minScrollHeight,
+                            left: 0,
+                            behavior: "smooth",
+                        });
+                        //console.log(window.scrollY);
+                    }
+                }, timedelay);
             }
 
-            function scrollUp(element) {
-                //console.log("running scroll up");
-                cntr++;
-                if (cntr < myheight) {
-                    element.scrollBy({
-                        top: -10,
-                        left: 0,
-                        behavior: "smooth",
-                    });
+            function scrollToTop(timedelay = 150) {
+                var scrollId;
+                var minScrollHeight = 5;
 
-                    const scrollupdelay = setTimeout(
-                        () => requestAnimationFrame(() => scrollUp(element)),
-                        100,
-                    );
-                }
+                scrollId = setInterval(function () {
+                    if (window.scrollY <= 1) {
+                        clearInterval(scrollId);
+                        // now run the upwards scroll
+                        scrollToBottom();
+                    } else {
+                        window.scrollBy({
+                            top: -minScrollHeight,
+                            left: 0,
+                            behavior: "smooth",
+                        });
+                        //console.log(window.scrollY);
+                    }
+                }, timedelay);
             }
-
-            // scroll down as results highlighted
-            // do this every 2 minutes
-            setInterval(function () {
-                cntr = 0;
-                myheight = document.body.clientHeight + 20;
-                scrollDown(window);
-            }, 120000);
-
-            // scroll up every 2 minutes
-            // but with a 1 minute offset
-            setTimeout(function () {
-                setInterval(function () {
-                    cntr = 0;
-                    scrollUp(window);
-                }, 120000);
-            }, 60000);
-            // end of do some scrolling
 
             // get arrOptions from google
             //===========================

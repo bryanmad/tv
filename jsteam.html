@@ -27,7 +27,7 @@
       overflow: auto;
 
 
-      height:290vh;
+      //height:290vh;
 
 
       opacity: 1;
@@ -284,61 +284,54 @@ console.log("jsteam.html")
 
 
     //------------------------------------------------------------------------------
-    // scroll the window
-    // - scroll down as the entries are highlighted
-    // - delay to see results
-    // - scroll back up to top
-    // - delay to see results
-    // - move to next screen
-    // - continue loop ....
 
-    var myheight = 280; //(about 3.5 screens)
-    var cntr = 0;
+    // start the run
+    setTimeout(scrollToBottom, 30000);
 
-    function scrollDown(element) {
-        cntr++;
-        if (cntr < myheight) {
-            element.scrollBy({
-                top: 10,
-                left: 0,
-                behavior: "smooth",
-            });
+    function scrollToBottom(timedelay = 150) {
+        var scrollId;
+        var minScrollHeight = 5;
 
-            const scrolldowndelay = setTimeout(
-                () => requestAnimationFrame(() => scrollDown(element)),
-                100,
-            );
-        }
+        scrollId = setInterval(function () {
+            if (
+                window.innerHeight + window.scrollY >=
+                document.body.offsetHeight
+            ) {
+                clearInterval(scrollId);
+                // now run the upwards scroll
+                scrollToTop();
+            } else {
+                window.scrollBy({
+                    top: minScrollHeight,
+                    left: 0,
+                    behavior: "smooth",
+                });
+                //console.log(window.scrollY);
+            }
+        }, timedelay);
     }
 
-    function scrollUp(element) {
-        cntr++;
-        if (cntr < myheight) {
-            element.scrollBy({
-                top: -10,
-                left: 0,
-                behavior: "smooth",
-            });
+    function scrollToTop(timedelay = 150) {
+        var scrollId;
+        var minScrollHeight = 5;
 
-            const scrollupdelay = setTimeout(
-                () => requestAnimationFrame(() => scrollUp(element)),
-                100,
-            );
-        }
+        scrollId = setInterval(function () {
+            if (window.scrollY <= 1) {
+                clearInterval(scrollId);
+                // now run the upwards scroll
+                //scrollToBottom();
+                // move to points
+                location.replace("jspoints.html");
+            } else {
+                window.scrollBy({
+                    top: -minScrollHeight,
+                    left: 0,
+                    behavior: "smooth",
+                });
+                 //console.log(window.scrollY);
+            }
+        }, timedelay);
     }
-
-    // scroll down as results highlighted
-    // scroll up after a short delay
-    setTimeout(function () {
-        scrollDown(window);
-    }, 1000);
-
-
-    // scroll up after a 1 minute delay
-    setTimeout(function () {
-      cntr = 0;
-        scrollUp(window);
-    }, 60000);
 
     //=========================================
     // move to next screen after ... minutes
@@ -352,9 +345,9 @@ console.log("jsteam.html")
     //  so 7 minutes changeover
     //
     // 7 minutes to next screen
-    setTimeout(function () {
-        location.replace("jspoints.html");
-    }, 420000);
+    //setTimeout(function () {
+    //    location.replace("jspoints.html");
+    //}, 420000);
 
     //------------------------------------------------------------------------------
 
@@ -532,11 +525,13 @@ function initialBodyUpdate(nom,pos,score) {
 	if (score == 0) {
 	   document.getElementById("position" + pos).innerText = arrpos[0];
 	   document.getElementById("position" + pos).parentNode.style.opacity = "0.5";
+	   document.getElementById("score" + pos).innerText = "n/a";
 	} else {
 	   document.getElementById("position" + pos).innerText = arrpos[currentpos];
 	   document.getElementById("position" + pos).parentNode.style.opacity = "1.0";
+       document.getElementById("score" + pos).innerText = score;
 	}
-	document.getElementById("score" + pos).innerText = score;
+
 	currentscore = score;
 }
 
