@@ -2,10 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
         <title>tees</title>
         <meta content="Bryan M" name="author" />
         <meta name="theme-color" content="indigo" />
@@ -13,14 +10,12 @@
         <link href="originalgolf.svg" rel="icon" type="image/x-icon" />
         <link rel="apple-touch-icon" sizes="180x180" href="originalgolf.svg" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <link
-            href="https://fonts.googleapis.com/css?family=Kalam"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet" />
         <style>
             * {
                 font-family: arial;
                 font-size: 4vh;
+                scroll-behavior: smooth;
             }
 
             body {
@@ -63,12 +58,7 @@
                 box-shadow: 0 3px 5px black;
                 color: white;
                 border-radius: 10px;
-                transition-timing-function: cubic-bezier(
-                    0.68,
-                    -0.55,
-                    0.265,
-                    1.55
-                );
+                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
                 border: 4px solid rgba(255, 255, 255, 0.3);
                 background-clip: padding-box;
             }
@@ -88,12 +78,7 @@
                 box-shadow: 0 3px 5px black;
                 color: white;
                 border-radius: 10px;
-                transition-timing-function: cubic-bezier(
-                    0.68,
-                    -0.55,
-                    0.265,
-                    1.55
-                );
+                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
                 border: 4px solid rgba(255, 255, 255, 0.3);
                 background-clip: padding-box;
             }
@@ -172,53 +157,20 @@
                         location.replace("jspoints.html");
                     }
                 },
-                30 * 60 * 1000,
+                30 * 60 * 1000
             );
 
             // start the run after 30 seconds
             setTimeout(scrollToBottom, 30000);
 
-            function scrollToBottom(timedelay = 150) {
-                var scrollId;
-                var minScrollHeight = 5;
-
-                scrollId = setInterval(function () {
-                    if (
-                        window.innerHeight + window.scrollY >=
-                        document.body.offsetHeight
-                    ) {
-                        clearInterval(scrollId);
-                        // now run the upwards scroll
-                        scrollToTop();
-                    } else {
-                        window.scrollBy({
-                            top: minScrollHeight,
-                            left: 0,
-                            behavior: "smooth",
-                        });
-                        //console.log(window.scrollY);
-                    }
-                }, timedelay);
+            function scrollToBottom() {
+                scrollTo(2500);
+                setTimeout(scrollToTop, 60000);
             }
 
-            function scrollToTop(timedelay = 150) {
-                var scrollId;
-                var minScrollHeight = 5;
-
-                scrollId = setInterval(function () {
-                    if (window.scrollY <= 1) {
-                        clearInterval(scrollId);
-                        // now run the upwards scroll
-                        scrollToBottom();
-                    } else {
-                        window.scrollBy({
-                            top: -minScrollHeight,
-                            left: 0,
-                            behavior: "smooth",
-                        });
-                        //console.log(window.scrollY);
-                    }
-                }, timedelay);
+            function scrollToTop() {
+                scrollTo(-100);
+                setTimeout(scrollToBottom, 60000);
             }
 
             // get arrOptions from google
@@ -232,7 +184,7 @@
             async function getData() {
                 // get scores tab
                 var dataStream = await fetch(
-                    "https://opensheet.elk.sh/18v--oTO4IICCTf8uCQEmFgItvVFIHukQz9Q0D_Sp1FQ/scores",
+                    "https://opensheet.elk.sh/18v--oTO4IICCTf8uCQEmFgItvVFIHukQz9Q0D_Sp1FQ/scores"
                 );
                 if (!dataStream.ok) {
                     const message = `An error has occured: ${dataStream.status}`;
@@ -336,6 +288,30 @@
                 new Promise((resolve) => {
                     setTimeout(() => resolve(), time);
                 });
+
+            /**
+             * @param {number} yPos Pixels from the top of the screen to scroll to
+             * @param {number} duration Time of animation in milliseconds
+             */
+            const scrollTo = (yPos, duration = 50000) => {
+                const startY = window.scrollY;
+                const difference = yPos - startY;
+                const startTime = performance.now();
+
+                const step = () => {
+                    const progress = (performance.now() - startTime) / duration;
+                    const amount = easeOutCubic(progress);
+                    window.scrollTo({ top: startY + amount * difference });
+                    if (progress < 0.99) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+
+                step();
+            };
+
+            // Easing function from https://gist.github.com/gre/1650294
+            const easeOutCubic = (t) => --t * t * t + 1;
         </script>
     </body>
 </html>
