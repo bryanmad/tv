@@ -152,7 +152,7 @@
             testtime = setInterval(
                 function () {
                     var ddd = new Date();
-                    if (ddd.getHours() == "15") {
+                    if (ddd.getHours() == "17") {
                         clearInterval("testtime");
                         location.replace("jspoints.html");
                     }
@@ -172,7 +172,6 @@
             function hide() {
                 for (i = 1; i <= 17; i++) {
                     j = (i - 1) * 4;
-
                     temp = setTimeout(stepHide, i * 10000, i, j);
                 }
             }
@@ -180,7 +179,6 @@
             function unHide() {
                 for (i = 17; i >= 1; i--) {
                     j = (i - 1) * 4;
-
                     setTimeout(stepUnHide, (17 - i) * 10000, i, j);
                 }
             }
@@ -203,21 +201,6 @@
                 }
             }
 
-            /* 
-            
-            // start the run after 30 seconds
-            setTimeout(scrollToBottom, 30000);
-
-            function scrollToBottom() {
-                scrollTo(document.documentElement.scrollHeight + 200);
-                setTimeout(scrollToTop, 60000);
-            }
-
-            function scrollToTop() {
-                scrollTo(-200);
-                setTimeout(scrollToBottom, 60000);
-            }
-*/
             // get arrOptions from google
             //===========================
             // this code runs at startup
@@ -338,6 +321,7 @@
              * @param {number} yPos Pixels from the top of the screen to scroll to
              * @param {number} duration Time of animation in milliseconds
              */
+            /*
             const scrollTo = (yPos, duration = 50000) => {
                 const startY = window.scrollY;
                 const difference = yPos - startY;
@@ -357,6 +341,7 @@
 
             // Easing function from https://gist.github.com/gre/1650294
             const easeOutCubic = (t) => --t * t * t + 1;
+            */
         </script>
     </body>
 </html>
