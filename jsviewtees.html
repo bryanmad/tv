@@ -160,6 +160,51 @@
                 30 * 60 * 1000
             );
 
+            // sequence is:
+            // draw all tee times
+            // "hide" first tee time - others move up
+            // etc.
+            // id="h0" and id="aa1"
+            // id="h64" and id="aa17"
+
+            setTimeout(hide, 30000);
+
+            function hide() {
+                for (i = 1; i <= 17; i++) {
+                    j = (i - 1) * 4;
+
+                    temp = setTimeout(stepHide, i * 10000, i, j);
+                }
+            }
+
+            function unHide() {
+                for (i = 17; i >= 1; i--) {
+                    j = (i - 1) * 4;
+
+                    setTimeout(stepUnHide, (17 - i) * 10000, i, j);
+                }
+            }
+
+            function stepHide(i, j) {
+                console.log("stepHide h" + j);
+                document.getElementById("aa" + i).style.display = "none";
+                document.getElementById("h" + j).style.display = "none";
+                if (i == "17") {
+                    setTimeout(unHide, 2000);
+                }
+            }
+
+            function stepUnHide(i, j) {
+                console.log("stepUnHide h" + i);
+                document.getElementById("aa" + i).style.display = "block";
+                document.getElementById("h" + j).style.display = "block";
+                if (i == "1") {
+                    setTimeout(hide, 2000);
+                }
+            }
+
+            /* 
+            
             // start the run after 30 seconds
             setTimeout(scrollToBottom, 30000);
 
@@ -172,7 +217,7 @@
                 scrollTo(-200);
                 setTimeout(scrollToBottom, 60000);
             }
-
+*/
             // get arrOptions from google
             //===========================
             // this code runs at startup
