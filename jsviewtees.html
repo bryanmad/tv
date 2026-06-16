@@ -171,16 +171,16 @@
             setTimeout(hide, 30000);
 
             function hide() {
-                for (i = 1; i <= 17; i++) {
+                for (i = 1; i <= 16; i++) {
                     j = (i - 1) * 4;
                     temp = setTimeout(stepHide, i * 10000, i, j);
                 }
             }
 
             function unHide() {
-                for (i = 17; i >= 1; i--) {
+                for (i = 16; i >= 1; i--) {
                     j = (i - 1) * 4;
-                    setTimeout(stepUnHide, (17 - i) * 10000, i, j);
+                    setTimeout(stepUnHide, (16 - i) * 10000, i, j);
                 }
             }
 
@@ -188,7 +188,7 @@
                 console.log("stepHide h" + j);
                 document.getElementById("aa" + i).style.display = "none";
                 document.getElementById("h" + j).style.display = "none";
-                if (i == "17") {
+                if (i == "16") {
                     setTimeout(unHide, 3000);
                 }
             }
