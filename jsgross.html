@@ -2,10 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
         <title>gross</title>
         <meta content="Bryan M" name="author" />
         <meta name="theme-color" content="indigo" />
@@ -13,10 +10,7 @@
         <link href="originalgolf.svg" rel="icon" type="image/x-icon" />
         <link rel="apple-touch-icon" sizes="180x180" href="originalgolf.svg" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <link
-            href="https://fonts.googleapis.com/css?family=Kalam"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet" />
         <style>
             :root {
                 --team-height: 5vh;
@@ -67,20 +61,13 @@
                 box-shadow: 0 3px 5px black;
                 left: 50%;
                 transform: translateX(-50%);
-                top: calc(
-                    var(--i) * (var(--team-height) + var(--team-spacing)) + 1vh
-                ); /* added top space of 1vh */
+                top: calc(var(--i) * (var(--team-height) + var(--team-spacing)) + 1vh); /* added top space of 1vh */
                 display: flex;
                 align-items: center;
                 transition-property: top;
                 transition-duration: 1500ms;
                 border-radius: 10px;
-                transition-timing-function: cubic-bezier(
-                    0.68,
-                    -0.55,
-                    0.265,
-                    1.55
-                );
+                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
                 border: 4px solid rgba(255, 255, 255, 0.3);
                 background-clip: padding-box;
             }
@@ -183,9 +170,7 @@
                 box-shadow: 0 3px 5px black;
                 left: 50%;
                 transform: translateX(-50%);
-                top: calc(
-                    var(--i) * 2.1 * (var(--team-height) + var(--team-spacing))
-                );
+                top: calc(var(--i) * 2.1 * (var(--team-height) + var(--team-spacing)));
                 border-radius: 10px;
                 border: 4px solid rgba(255, 255, 255, 0.3);
                 background-clip: padding-box;
@@ -216,20 +201,13 @@
                 background: transparent;
                 left: 50%;
                 transform: translateX(-50%);
-                top: calc(
-                    var(--i) * (var(--team-height) + var(--team-spacing)) + 1vh
-                ); /* added top space of 1vh */
+                top: calc(var(--i) * (var(--team-height) + var(--team-spacing)) + 1vh); /* added top space of 1vh */
                 display: flex;
                 align-items: center;
                 transition-property: top;
                 transition-duration: 1500ms;
                 border-radius: 10px;
-                transition-timing-function: cubic-bezier(
-                    0.68,
-                    -0.55,
-                    0.265,
-                    1.55
-                );
+                transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
             }
         </style>
     </head>
@@ -283,10 +261,7 @@
                 var minScrollHeight = 5;
 
                 scrollId = setInterval(function () {
-                    if (
-                        window.innerHeight + window.scrollY >=
-                        document.body.offsetHeight
-                    ) {
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight + 150) {
                         clearInterval(scrollId);
                         // now run the upwards scroll
                         scrollToTop();
@@ -294,7 +269,7 @@
                         window.scrollBy({
                             top: minScrollHeight,
                             left: 0,
-                            behavior: "smooth",
+                            behavior: "smooth"
                         });
                         //console.log(window.scrollY);
                     }
@@ -316,7 +291,7 @@
                         window.scrollBy({
                             top: -minScrollHeight,
                             left: 0,
-                            behavior: "smooth",
+                            behavior: "smooth"
                         });
                         //console.log(window.scrollY);
                     }
@@ -346,14 +321,11 @@
             // data is available here
             getData();
             async function getData() {
-                url =
-                    "https://opensheet.elk.sh/18v--oTO4IICCTf8uCQEmFgItvVFIHukQz9Q0D_Sp1FQ/scores";
+                url = "https://opensheet.elk.sh/18v--oTO4IICCTf8uCQEmFgItvVFIHukQz9Q0D_Sp1FQ/scores";
                 try {
                     const dataStream = await fetch(url);
                     if (!dataStream.ok) {
-                        throw new Error(
-                            `Response status: ${dataStream.status}`,
-                        );
+                        throw new Error(`Response status: ${dataStream.status}`);
                     }
                     data = await dataStream.json();
                     // don't need blank players
@@ -368,12 +340,12 @@
                     // sort by hcp, lowest first
                     data.sort((a, b) => parseInt(a.hcp) - parseInt(b.hcp));
                     // sort by score, highest first
-                    data.sort(
-                        (a, b) =>
-                            parseInt(b.playergross) - parseInt(a.playergross),
-                    );
+                    data.sort((a, b) => parseInt(b.playergross) - parseInt(a.playergross));
                 } catch (error) {
                     console.error(error.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 5000);
                 }
                 useData();
             }
@@ -463,9 +435,7 @@
                     let elementScore = element.querySelector(".score");
                     if (elementName.innerHTML == elName) {
                         elementScore.innerHTML = scr;
-                        let newRank = data.find(
-                            (team) => team.players === elementName.innerHTML,
-                        ).rank;
+                        let newRank = data.find((team) => team.players === elementName.innerHTML).rank;
                         // move player position
                         // setProperty(propertyName, value)
                         if (scr == -99) {
@@ -479,9 +449,7 @@
                         //    element.style.opacity = 1;
                         //}, 800);
                         let elementPos = element.querySelector(".position");
-                        elementPos.innerText = data.find(
-                            (team) => team.players === elementName.innerHTML,
-                        ).position;
+                        elementPos.innerText = data.find((team) => team.players === elementName.innerHTML).position;
                     }
                 }); // end of looping through players
             }
