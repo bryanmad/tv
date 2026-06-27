@@ -149,11 +149,20 @@
             var runloop = true;
             // when it reaches 5pm swap over to looped screens
             // test every 30 minutes ...
+
+            var dd = new Date();
+
+            //if (ddd.getHours() == "17") {
+            if (dd.getHours() > "16") {
+                clearInterval("testtime");
+                location.replace("jspoints.html");
+            }
+
             testtime = setInterval(
                 function () {
                     var ddd = new Date();
                     //if (ddd.getHours() == "17") {
-                    if (ddd.getHours() == "17") {
+                    if (ddd.getHours() > "16") {
                         clearInterval("testtime");
                         location.replace("jspoints.html");
                     }
